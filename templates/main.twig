@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="{{ base_url() }}/assets/css/foundation.min.css">
+	<link rel="stylesheet" href="{{ base_url() }}/assets/css/font-awesome.css">
+	<link rel="stylesheet" href="{{ base_url() }}/assets/css/app.css">
+	<title></title>
+</head>
+<body>
+	<nav class="navbar">
+		<div class="row">
+			<div class="navbar--logo"></div>
+			<div class="navbar--title">
+				<h2>MUSEUM HELPER</h2>
+			</div>
+		</div>
+	</nav>
+	<div class="welcome">
+		<h2>Welcome to <span>Museum Helper</span></h2>
+		<h3>Use your own credentials to sign in.</h3>
+	</div>
+	<div class="login">
+		<div class="row">
+			<div class="login--container">
+				<form action="" method="POST">
+					<label class="login--icon">
+						<input type="text" name="email" placeholder="Email address">
+						<i class="fa fa-user"></i>
+					</label>
+					<label class="login--icon">
+						<input type="password" name="password" placeholder="Password">
+						<i class="fa fa-key"></i>
+					</label>
+					<button class="button button--login expanded" type="submit">Login</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<footer>
+		<p>2016 &copy; Better Philippines Movement Initiative</p>
+	</footer>
+	<script src="{{ base_url() }}/assets/js/vendor/jquery.js"></script>
+	<script src="{{ base_url() }}/assets/js/vendor/what-input.js"></script>
+	<script src="{{ base_url() }}/assets/js/vendor/foundation.min.js"></script>
+	<script src="{{ base_url() }}/assets/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+body {
+	background: url('/assets/images/background2.png') no-repeat;
+	background-size: 100%;
+}
+.navbar {
+	padding-top: 20px;
+	height: 80px;
+	width: 100%;
+	margin-bottom: 180px;
+}
+
+.navbar--logo {
+	width: 80px;
+	height: 80px;
+	background: url('/assets/images/logo.png') no-repeat;
+	background-size: 100%;
+	display: inline-block;
+}
+
+.navbar--title {
+	float: right;
+}
+
+.navbar--title h2 {
+	line-height: 80px;
+	font-size: 16px;
+	font-weight: 700;
+	color: white;
+}
+
+.welcome {
+	text-align: center;
+	margin-bottom: 50px;
+	color: white;
+}
+
+.welcome h2, .welcome h3 {
+	margin: 0;
+}
+
+.welcome h3 {
+	margin-top: 10px;
+	font-size: 16px;
+}
+
+.welcome h2 {
+	font-size: 32px;
+	font-weight: 600;
+}
+
+.welcome h2 > span {
+	color: #31af7b;
+	font-weight: 800;
+}
+
+.login {
+	height: auto;
+}
+
+.login--container {
+	margin: 0 auto;
+	height: auto;
+	width: 400px;
+}
+
+.button--login {
+	border-radius: 3px;
+	background: #31af7b;
+}
+
+.button--login:hover {
+	background: #24885f;
+}
+
+.login--icon {
+	position: relative;
+}
+
+.login--icon i {
+	position: absolute;
+	padding-left: 15px;
+	font-size: 16px;
+	color: #31af7b;
+	margin-top: -44px;
+}
+
+.login--icon input {
+	padding-left: 40px;
+	font-size: 14px;
+	border-radius: 3px;
+}
+
+.login--icon input:focus {
+	border: 1px solid #31af7b;
+	box-shadow: 0 0 0px transparent;
+}
+
+footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+}
+
+footer p {
+	text-align: center;
+	color: white;
+	font-size: 12px;
+	padding: 50px;
+}
