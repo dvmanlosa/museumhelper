@@ -26,18 +26,27 @@ $container['view'] = function ($c) {
 };
 
 $app->get('/', function($req, $res, $args) {
-	return $this->view->render($res, "main.twig");
+	return $this->view->render($res, "home.twig");
 });
 
 $app->post('/', function($req, $res, $args) {
 	$bind = $req->getParsedBody();
 	if(Users::login($bind)){
-		return $res->withHeader('Location', '/exhibit');
+		if($_SESSION['user']['type'] == 'admin'){
+			return $res->withHeader('Location', '/contributor');
+		}else{
+			return $res->withHeader('Location', '/exhibit');
+		}
 	}
 });
 
-$app->get('/', function($req, $res) {
+$app->get('/contributor', function($req, $res) {
+	return $this->view->render($res, "contributor.twig");
+});
+
+$app->get('/exhibit', function($req, $res) {
 	return $this->view->render($res, "exhibit.twig");
 });
+
 
 $app->run();
