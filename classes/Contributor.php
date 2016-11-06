@@ -35,6 +35,9 @@
 		public static function addExhibit($input = array()){
 			$id = Utilities::generateExhibitId();
 			$flag = false;
+			if(empty($input[':exhibit'])){
+				return false;
+			}
 			if(isset($_FILES[':audio'])){
 				if(strcmp($_FILES[':audio']['name'], "") == 0){
 					$query = "INSERT INTO exhibit VALUES('$id', :exhibit, :description, default)";

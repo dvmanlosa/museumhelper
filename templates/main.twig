@@ -9,6 +9,17 @@
 <body>
 	{% block reveal %}
 	{% endblock reveal %}
+	{% if messages %}
+		{% if messages.success %}
+			<div class="messages callout success">
+				<i class="fa fa-exclamation-triangle"></i>{{ messages.success[0] }}
+			</div>
+		{% else %}
+			<div class="messages callout alert">
+				<i class="fa fa-exclamation-triangle"></i>{{ messages.error[0] }}
+			</div>
+		{% endif %}
+	{% endif %}
 	<nav class="navbar">
 	</nav>
 	<div class="medium-12 columns">
@@ -17,11 +28,6 @@
 				<h2 class="container--title clearfix">{% block contenttitle %}{% endblock contenttitle %}</h2>
 			</div>
 			<div class="medium-12 columns">
-				{% if messages %}
-					<div class="callout success">
-						{{ messages.action[0] }}
-					</div>
-				{% endif %}
 				{% block content %}
 				{% endblock content %}
 			</div>
@@ -31,6 +37,9 @@
 	<script src="{{ base_url() }}/assets/js/vendor/what-input.js"></script>
 	<script src="{{ base_url() }}/assets/js/vendor/foundation.min.js"></script>
 	<script src="{{ base_url() }}/assets/js/app.js"></script>
+	<script>
+		$('.messages').delay(3500).fadeOut(400);
+	</script>
 	{% block scripts %}
 	{% endblock scripts %}
 </body>

@@ -45,20 +45,24 @@ $app->post('/', function($req, $res, $args) {
 });
 
 $app->get('/exhibit', function($req, $res) {
+	$messages = $this->flash->getMessages();
 	$data = Contributor::readExhibitList(Utilities::getKey());
-	return $this->view->render($res, "exhibit.twig", ['exhibits' => $data]);
+	return $this->view->render($res, "exhibit.twig", ['exhibits' => $data, 'messages' => $messages]);
 })->setName("listExhibist");
 
 $app->get('/exhibit/add', function($req, $res){
-	return $this->view->render($res, "form/addexhibit.twig");
+	$messages = $this->flash->getMessages();
+	return $this->view->render($res, "form/addexhibit.twig", ['messages' => $messages]);
 })->setName("addExhibit");
 
 $app->post('/exhibit/add', function($req, $res, $args) {
 	$bind = $req->getParsedBody();
 	if(Contributor::addExhibit($bind)){
+		$this->flash->addMessage('success', 'Notice! You have sucessfully added a new exhibit!');
 		return $res->withHeader('Location', '/exhibit');
 	}else{
-		
+		$this->flash->addMessage('error', 'Error! An error has occured!');
+		return $res->withHeader('Location', '/exhibit/add');
 	}
 });
 
@@ -74,13 +78,13 @@ $app->get('/contributor/add', function($req, $res){
 
 $app->get('/contributor/deactivate[/[{id}]]', function($req, $res, $args){
 	Admin::deactivateContributor($args['id']);
-	$this->flash->addMessage('action', 'You have sucessfully deactivated contributor #'.$args['id'].'');
+	$this->flash->addMessage('success', 'Notice! You have sucessfully deactivated contributor #'.$args['id'].'');
 	return $res->withHeader('Location', '/contributor');
 })->setName("deactivate");
 
 $app->get('/contributor/activate[/[{id}]]', function($req, $res, $args){
 	Admin::activateContributor($args['id']);
-	$this->flash->addMessage('action', 'You have sucessfully activated contributor #'.$args['id'].'');
+	$this->flash->addMessage('success', 'Notice! You have sucessfully activated contributor #'.$args['id'].'');
 	return $res->withHeader('Location', '/contributor');
 })->setName("activate");
 
