@@ -1,7 +1,6 @@
 <?php
 
-    class Users{
-        
+    class Users{ 
         public static function login($input = array()){
             if(count($input) < 2){
                 //Lacking inputs

@@ -1,1 +1,87 @@
-Contributor
+{% extends 'main.twig' %}
+
+{% block title %}
+	List of Contributors
+{% endblock title %}
+
+{% block contenttitle %}
+	<div class="pull-left">
+		<i class="fa fa-user"></i>List of Contributors
+	</div>
+	<div class="add pull-right">
+		<a href="{{ path_for('addContributor') }}" class="button secondary"><i class="fa fa-plus"></i>Add Contributors</a>
+	</div>
+{% endblock contenttitle %}
+
+{% block reveal %}
+	<div class="reveal" data-animation-in="fade-in" data-animation-out="fade-out" id="status" data-reveal>
+		<div class="callout">
+			<p><i class="fa fa-exclamation-triangle"></i>Warning! You are about to <strong id="actionstring"></strong> a contributor.</p>
+		</div>
+		<div id="confirmationid">	
+		</div>
+		<div class="actionbutton">
+				
+			</div>
+		<button class="close-button" data-close aria-label="Close reveal" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+{% endblock reveal %}
+
+{% block content %}
+	<table>
+		<thead>
+			<td>Contributor ID</td>
+			<td>Full Name</td>
+			<td>Email Address</td>
+			<td>Contact Number</td>
+			<td>Status</td>
+		</thead>
+		<tbody>
+			{% for contributor in contributors %}
+				<tr>
+					<td>{{ contributor.user_id }}</td>
+					<td>{{ contributor.firstName }} {{ contributor.middleName }} {{ contributor.lastName }}</td>
+					<td>{{ contributor.email }}</td>
+					<td>{{ contributor.contact }}</td>
+					<td class="action">
+						{% if contributor.deactivated == 0 %}
+							<a data-open="status" data-action="deactivate" class="button success" data-id="{{ contributor.user_id }}" data-name="{{ contributor.firstName }} {{ contributor.middleName }} {{ contributor.lastName }}">
+								<i class="fa fa-check"></i>
+								Active
+							</a>
+						{% else %}
+							<a data-open="status" data-action="activate" class="button alert" data-id="{{ contributor.user_id }}" data-name="{{ contributor.firstName }} {{ contributor.middleName }} {{ contributor.lastName }}">
+								<i class="fa fa-times"></i>
+								Inactive
+							</a>
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock content %}
+
+{% block scripts %}
+	<script>
+		$('.action .button').on('click',function(){
+			var user_id = $(this).attr('data-id');
+			var user_fullname = $(this).attr('data-name');
+			var action = $(this).attr('data-action');
+			$("#confirmationid").html("ID#"+(user_id)+", "+(user_fullname));
+			if(action == "deactivate"){
+				var route = "{{ path_for('deactivate', { 'id': "user_id" }) }}";
+				var url = route.replace("user_id", user_id);
+				$("#actionstring").html("deactivate");
+				$('.actionbutton').html("<a href='" + url + "' class='button alert'><i class='fa fa-archive'></i>Deactivate</a>");
+			}else{
+				var route = "{{ path_for('activate', { 'id': "user_id" }) }}";
+				var url = route.replace("user_id", user_id);
+				$("#actionstring").html("activate");
+				$('.actionbutton').html("<a href='" + url + "' class='button success'><i class='fa fa-archive'></i>Activate</a>");
+			}
+		});
+	</script>
+{% endblock scripts %}

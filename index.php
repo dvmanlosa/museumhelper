@@ -25,6 +25,10 @@ $container['view'] = function ($c) {
     return $view;
 };
 
+$container['flash'] = function () {
+    return new \Slim\Flash\Messages();
+};
+
 $app->get('/', function($req, $res, $args) {
 	return $this->view->render($res, "home.twig");
 });
@@ -40,13 +44,50 @@ $app->post('/', function($req, $res, $args) {
 	}
 });
 
-$app->get('/contributor', function($req, $res) {
-	return $this->view->render($res, "contributor.twig");
-});
-
 $app->get('/exhibit', function($req, $res) {
-	return $this->view->render($res, "exhibit.twig");
+	$data = Contributor::readExhibitList(Utilities::getKey());
+	return $this->view->render($res, "exhibit.twig", ['exhibits' => $data]);
+})->setName("listExhibist");
+
+$app->get('/exhibit/add', function($req, $res){
+	return $this->view->render($res, "form/addexhibit.twig");
+})->setName("addExhibit");
+
+$app->post('/exhibit/add', function($req, $res, $args) {
+	$bind = $req->getParsedBody();
+	if(Contributor::addExhibit($bind)){
+		return $res->withHeader('Location', '/exhibit');
+	}else{
+		
+	}
 });
 
+$app->get('/contributor', function($req, $res) {
+	$messages = $this->flash->getMessages();
+	$data = Admin::readContributorList();
+	return $this->view->render($res, "contributor.twig", ['contributors' => $data, 'messages' => $messages]);
+})->setName("listContributor");
+
+$app->get('/contributor/add', function($req, $res){
+	return $this->view->render($res, "form/addcontributor.twig");
+})->setName("addContributor");
+
+$app->get('/contributor/deactivate[/[{id}]]', function($req, $res, $args){
+	Admin::deactivateContributor($args['id']);
+	$this->flash->addMessage('action', 'You have sucessfully deactivated contributor #'.$args['id'].'');
+	return $res->withHeader('Location', '/contributor');
+})->setName("deactivate");
+
+$app->get('/contributor/activate[/[{id}]]', function($req, $res, $args){
+	Admin::activateContributor($args['id']);
+	$this->flash->addMessage('action', 'You have sucessfully activated contributor #'.$args['id'].'');
+	return $res->withHeader('Location', '/contributor');
+})->setName("activate");
+
+$app->get('/logout', function($req, $res){
+	Users::logout();
+	$this->flash->addMessage('action', 'You have sucessfully logout');
+	return $res->withHeader('Location', '/');
+})->setName("logoutUser");
 
 $app->run();

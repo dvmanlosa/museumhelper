@@ -18,8 +18,7 @@
 			}
 		}
 
-		public static function readExhibitList(){
-			$key = getKey();
+		public static function readExhibitList($key){
 			$query = "SELECT exhibit_id, exhibit_name, audio_filename FROM exhibit WHERE exhibit_id LIKE '$key%'";
 			$db = Db::getInstance()->select($query, array());
 			if($db->error()){
@@ -34,7 +33,7 @@
 		}
 
 		public static function addExhibit($input = array()){
-			$id = generateExhibitId();
+			$id = Utilities::generateExhibitId();
 			$flag = false;
 			if(isset($_FILES[':audio'])){
 				if(strcmp($_FILES[':audio']['name'], "") == 0){
@@ -45,6 +44,8 @@
 					if($audioFileName = Contributor::uploadAudio($_FILES[':audio'])){
 						$flag = true;
 						$query = "INSERT INTO exhibit VALUES ('$id', :exhibit, :description, '$audioFileName')";
+					}else{
+						var_dump(Contributor::uploadAudio($_FILES[':audio']));
 					}
 				}
 				if($flag){
@@ -59,6 +60,8 @@
 						return true;
 					}
 				}
+			}else{
+				var_dump($input);
 			}
 		}
 

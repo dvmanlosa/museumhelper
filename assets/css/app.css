@@ -2,6 +2,7 @@ body {
 	background: url('/assets/images/background2.png') no-repeat;
 	background-size: 100%;
 }
+
 .navbar {
 	padding-top: 20px;
 	height: 80px;
@@ -19,6 +20,7 @@ body {
 
 .navbar--title {
 	float: right;
+	text-transform: uppercase;
 }
 
 .navbar--title h2 {
@@ -107,3 +109,4 @@ footer p {
 	font-size: 12px;
 	padding: 50px;
 }
+

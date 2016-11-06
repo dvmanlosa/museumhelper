@@ -1,1 +1,50 @@
-Exhibit
+{% extends 'main.twig' %}
+
+{% block title %}
+	List of Exhibit
+{% endblock title %}
+
+{% block contenttitle %}
+	<div class="pull-left">
+		<i class="fa fa-user"></i>List of Exhibits
+	</div>
+	<div class="add pull-right">
+		<a href="{{ path_for('addExhibit') }}" class="button secondary"><i class="fa fa-plus"></i>Add Exhibit</a>
+	</div>
+{% endblock contenttitle %}
+
+{% block content %}
+	<table>
+		<thead>
+			<td>Exhibit ID</td>
+			<td>Exhibit Name</td>
+			<td>Audio File</td>
+			<td></td>
+		</thead>
+		<tbody>
+			{% for exhibit in exhibits %}
+				<tr>
+					<td>{{ exhibit.exhibit_id }}</td>
+					<td>{{ exhibit.exhibit_name }}</td>
+					<td>
+						{% if exhibit.audio_filename == null %}
+							No audio file
+						{% else %}
+							<audio widt ='100px' height='50px' controls=''><source src='{{ base_url() }}/audio/{{ exhibit.audio_filename }}.mp3'></audio>
+						{% endif %}
+					</td>
+					<td class="action">
+						<a href="" class="button primary">
+							<i class="fa fa-cog"></i>
+							Update
+						</a>
+						<button class="button alert">
+							<i class="fa fa-times"></i>
+							Delete
+						</button>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock content %}

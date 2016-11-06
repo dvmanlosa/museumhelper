@@ -1,5 +1,4 @@
 <?php
-
 	class Admin{
 		
 		public static function addUser($input = array()){
@@ -33,16 +32,32 @@
         	}
         }
 
-        public static function deactivateContributor($input = array()){
-        	$input[':status'] = ($input[':status'] == 0? 1:0);
-        	$query = "UPDATE users SET deactivated = :status WHERE user_id = :id";
-        	$db = Db::getInstance()->update($query, $input);
+        public static function deactivateContributor($id){
+        	$query = "UPDATE users SET deactivated = 1 WHERE user_id = :id";
+            $values = array(
+                ':id' => $id
+                );
+        	$db = Db::getInstance()->update($query, $values);
         	if($db->error()){
         		return false;
         	}
         	else{
         		return true;
         	}
+        }
+
+        public static function activateContributor($id){
+            $query = "UPDATE users SET deactivated = 0 WHERE user_id = :id";
+            $values = array(
+                ':id' => $id
+                );
+            $db = Db::getInstance()->update($query, $values);
+            if($db->error()){
+                return false;
+            }
+            else{
+                return true;
+            }
         }
 	}
 
