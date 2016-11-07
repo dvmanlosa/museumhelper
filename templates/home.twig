@@ -22,6 +22,11 @@
 	<div class="login">
 		<div class="row">
 			<div class="login--container">
+				{% if messages %}
+					<div class="messages callout alert">
+						<i class="fa fa-exclamation-triangle"></i>{{ messages.error[0] }}
+					</div>
+				{% endif %}
 				<form action="" method="POST">
 					<label class="login--icon">
 						<input type="text" name="email" placeholder="Email address">
@@ -43,5 +48,8 @@
 	<script src="{{ base_url() }}/assets/js/vendor/what-input.js"></script>
 	<script src="{{ base_url() }}/assets/js/vendor/foundation.min.js"></script>
 	<script src="{{ base_url() }}/assets/js/app.js"></script>
+	<script>
+		$('.messages').delay(3500).fadeOut(400);
+	</script>
 </body>
 </html>

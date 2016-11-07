@@ -10,6 +10,8 @@
                 $query = "INSERT INTO users VALUES(default, :firstName, :lastName, :middleName, :contact, :email, :password, :type, default)";
                 $db = Db::getInstance()->insert($query, $input);
                 if($db->error()){
+                    var_dump($input);
+                    var_dump($query);
                     return false;
                 }
                 else{

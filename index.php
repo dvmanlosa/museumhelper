@@ -30,7 +30,8 @@ $container['flash'] = function () {
 };
 
 $app->get('/', function($req, $res, $args) {
-	return $this->view->render($res, "home.twig");
+	$messages = $this->flash->getMessages();
+	return $this->view->render($res, "home.twig", ['messages' => $messages]);
 });
 
 $app->post('/', function($req, $res, $args) {
@@ -41,6 +42,9 @@ $app->post('/', function($req, $res, $args) {
 		}else{
 			return $res->withHeader('Location', '/exhibit');
 		}
+	}else{
+		$this->flash->addMessage('error', 'Invalid email/password, try again.');
+		return $res->withHeader('Location', '/');
 	}
 });
 
@@ -73,8 +77,20 @@ $app->get('/contributor', function($req, $res) {
 })->setName("listContributor");
 
 $app->get('/contributor/add', function($req, $res){
-	return $this->view->render($res, "form/addcontributor.twig");
+	$messages = $this->flash->getMessages();
+	return $this->view->render($res, "form/addcontributor.twig", ['messages' => $messages]);
 })->setName("addContributor");
+
+$app->post('/contributor/add', function($req, $res, $args) {
+	$bind = $req->getParsedBody();
+	if(Admin::addUser($bind)){
+		$this->flash->addMessage('success', 'Notice! You have sucessfully added a new contributor!');
+		return $res->withHeader('Location', '/contributor');
+	}else{
+		$this->flash->addMessage('error', 'Error! An error has occured!');
+		var_dump(Admin::addUser($bind));
+	}
+});
 
 $app->get('/contributor/deactivate[/[{id}]]', function($req, $res, $args){
 	Admin::deactivateContributor($args['id']);

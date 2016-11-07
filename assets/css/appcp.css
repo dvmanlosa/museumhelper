@@ -35,6 +35,14 @@ button > i {
 .add {
 }
 
+.mismatch {
+	border: 1px solid #F73333;
+}
+
+.match {
+	border: 1px solid #31af7b;
+}
+
 table, table thead td {
 	text-align: center;
 }

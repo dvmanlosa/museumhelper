@@ -10,5 +10,64 @@
 {% endblock contenttitle %}
 
 {% block content %}
-	
+	<form action="" method="post">
+		<label class="medium-4 columns">First Name
+			<input type="text" name=":firstName">
+		</label>
+		<label class="medium-4 columns">Middle Name
+			<input type="text" name=":middleName">
+		</label>
+		<label class="medium-4 columns">Last Name
+			<input type="text" name=":lastName">
+		</label>
+		<label class="medium-4 columns">Email Address
+			<input type="email" name=":email">
+		</label>
+		<label class="medium-4 columns">Password
+			<input type="password" name=":password" id="password">
+		</label>
+		<label class="medium-4 columns">Confirm Password
+			<input type="password" id="confirmPassword">
+		</label>
+		<label class="medium-4 columns">Contact Number
+			<input type="text" name=":contact" value="+63">
+		</label>
+		<label class="medium-4 columns">Type
+			<select name=":type">
+				<option value="admin">Administrator</option>
+				<option value="contributor">Contributor</option>
+			</select>
+		</label>
+		<div class="medium-12 columns">
+			<button class="pull-right button button--primary" type="submit"><i class="fa fa-plus"></i>Add Contributor</button>
+		</div>
+	</form>
 {% endblock content %}
+
+{% block scripts %}
+	<script>
+		$("#confirmPassword").keyup(function(){
+			$confirm = this.value;
+			$password = $("#password").val();
+			if($confirm == $password){
+				$("#confirmPassword").removeClass('mismatch');
+				$("#confirmPassword").addClass('match');
+			}else{
+				$("#confirmPassword").removeClass('match');
+				$("#confirmPassword").addClass('mismatch');
+			}
+		});
+
+		$("#password").keyup(function(){
+			$confirm = $(this).val();
+			$password = $("#confirmPassword").val();
+			if($confirm == $password){
+				$("#confirmPassword").removeClass('mismatch');
+				$("#confirmPassword").addClass('match');
+			}else{
+				$("#confirmPassword").removeClass('match');
+				$("#confirmPassword").addClass('mismatch');
+			}
+		});
+	</script>
+{% endblock scripts %}
