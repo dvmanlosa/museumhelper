@@ -32,7 +32,7 @@ $container['flash'] = function () {
 $app->get('/', function($req, $res, $args) {
 	$messages = $this->flash->getMessages();
 	return $this->view->render($res, "home.twig", ['messages' => $messages]);
-});
+})->setName("homePage");
 
 $app->post('/', function($req, $res, $args) {
 	$bind = $req->getParsedBody();
@@ -49,12 +49,20 @@ $app->post('/', function($req, $res, $args) {
 });
 
 $app->get('/exhibit', function($req, $res) {
+	if(!isset($_SESSION['user']['id']) || empty($_SESSION['user']['id'])){
+		$this->flash->addMessage('error', 'Error 403! Forbidden access!');
+		return $res->withHeader('Location', '/');
+	}
 	$messages = $this->flash->getMessages();
 	$data = Contributor::readExhibitList(Utilities::getKey());
 	return $this->view->render($res, "exhibit.twig", ['exhibits' => $data, 'messages' => $messages]);
 })->setName("listExhibist");
 
 $app->get('/exhibit/add', function($req, $res){
+	if(!isset($_SESSION['user']['id']) || empty($_SESSION['user']['id'])){
+		$this->flash->addMessage('error', 'Error 403! Forbidden access!');
+		return $res->withHeader('Location', '/');
+	}
 	$messages = $this->flash->getMessages();
 	return $this->view->render($res, "form/addexhibit.twig", ['messages' => $messages]);
 })->setName("addExhibit");
@@ -70,13 +78,52 @@ $app->post('/exhibit/add', function($req, $res, $args) {
 	}
 });
 
+$app->get('/exhibit/delete[/[{id}]]', function($req, $res, $args){
+	if(!isset($_SESSION['user']['id']) || empty($_SESSION['user']['id'])){
+		$this->flash->addMessage('error', 'Error 403! Forbidden access!');
+		return $res->withHeader('Location', '/');
+	}
+	Contributor::deleteExhibit($args['id']);
+	$this->flash->addMessage('success', 'Notice! You have sucessfully deleted exhibit #'.$args['id'].'');
+	return $res->withHeader('Location', '/exhibit');
+})->setName("deleteExhibit");
+
+$app->get('/exhibit/update[/[{id}]]', function($req, $res, $args){
+	if(!isset($_SESSION['user']['id']) || empty($_SESSION['user']['id'])){
+		$this->flash->addMessage('error', 'Error 403! Forbidden access!');
+		return $res->withHeader('Location', '/');
+	}
+	$messages = $this->flash->getMessages();
+	$data = Contributor::readExhibit($args['id']);
+	return $this->view->render($res, "form/updateexhibit.twig", ['messages' => $messages, 'data' => $data]);
+})->setName("updateExhibit");
+
+$app->post('/exhibit/update', function($req, $res, $args) {
+	$bind = $req->getParsedBody();
+	if(Contributor::addExhibit($bind)){
+		$this->flash->addMessage('success', 'Notice! You have sucessfully added a new exhibit!');
+		return $res->withHeader('Location', '/exhibit');
+	}else{
+		$this->flash->addMessage('error', 'Error! An error has occured!');
+		return $res->withHeader('Location', '/exhibit/update');
+	}
+});
+
 $app->get('/contributor', function($req, $res) {
+	if(!isset($_SESSION['user']['id']) || empty($_SESSION['user']['id'])){
+		$this->flash->addMessage('error', 'Error 403! Forbidden access!');
+		return $res->withHeader('Location', '/');
+	}
 	$messages = $this->flash->getMessages();
 	$data = Admin::readContributorList();
-	return $this->view->render($res, "contributor.twig", ['contributors' => $data, 'messages' => $messages]);
+	return $this->view->render($res, "contributor.twig", ['contributors' => $data, 'messages' => $messages, 'session' => $_SESSION]);
 })->setName("listContributor");
 
 $app->get('/contributor/add', function($req, $res){
+	if(!isset($_SESSION['user']['id']) || empty($_SESSION['user']['id'])){
+		$this->flash->addMessage('error', 'Error 403! Forbidden access!');
+		return $res->withHeader('Location', '/');
+	}
 	$messages = $this->flash->getMessages();
 	return $this->view->render($res, "form/addcontributor.twig", ['messages' => $messages]);
 })->setName("addContributor");
@@ -93,21 +140,33 @@ $app->post('/contributor/add', function($req, $res, $args) {
 });
 
 $app->get('/contributor/deactivate[/[{id}]]', function($req, $res, $args){
+	if(!isset($_SESSION['user']['id']) || empty($_SESSION['user']['id'])){
+		$this->flash->addMessage('error', 'Error 403! Forbidden access!');
+		return $res->withHeader('Location', '/');
+	}
 	Admin::deactivateContributor($args['id']);
 	$this->flash->addMessage('success', 'Notice! You have sucessfully deactivated contributor #'.$args['id'].'');
 	return $res->withHeader('Location', '/contributor');
 })->setName("deactivate");
 
 $app->get('/contributor/activate[/[{id}]]', function($req, $res, $args){
+	if(!isset($_SESSION['user']['id']) || empty($_SESSION['user']['id'])){
+		$this->flash->addMessage('error', 'Error 403! Forbidden access!');
+		return $res->withHeader('Location', '/');
+	}
 	Admin::activateContributor($args['id']);
 	$this->flash->addMessage('success', 'Notice! You have sucessfully activated contributor #'.$args['id'].'');
 	return $res->withHeader('Location', '/contributor');
 })->setName("activate");
 
 $app->get('/logout', function($req, $res){
+	if(!isset($_SESSION['user']['id']) || empty($_SESSION['user']['id'])){
+		$this->flash->addMessage('error', "Error! You're already logged out!");
+		return $res->withHeader('Location', '/');
+	}
 	Users::logout();
-	$this->flash->addMessage('action', 'You have sucessfully logout');
-	return $res->withHeader('Location', '/');
+	$this->flash->addMessage('success', 'You have sucessfully logout');
+	return $res->withHeader('Location', "/");
 })->setName("logoutUser");
-
+		
 $app->run();

@@ -1,0 +1,52 @@
+{% extends 'main.twig' %}
+
+{% block contenttitle %}
+	<div class="pull-left">
+		<i class="fa fa-list"></i>Updating Exhibit#{{ data.exhibit_id }}
+	</div>
+	<div class="pull-right">
+		<a href="{{ path_for('listExhibist') }}" class="button secondary"><i class="fa fa-arrow-left"></i>Back</a>
+	</div>
+{% endblock contenttitle %}
+
+{% block content %}
+	<form action="" method="post" enctype="multipart/form-data">
+		<label class="medium-6 columns">Exhibit Name
+			<input type="text" name=":exhibit" value="{{ data.exhibit_name }}">
+		</label>
+		<label class="medium-6 columns">Audio File
+			<input class="inputfile" id="inputfile" type="file" value="{{ data.exhibit_name }}" name=":audio" accept=".mp3"/>
+			<label class="inputfilelabel" for="inputfile"><i class="fa fa-upload"></i>{{ data.audio_filename }}</label>
+		</label>
+		<input type="hidden" value="{{ data.audio_filename }}" name=":audioFileName">
+		<label class="medium-12 columns">Exhibit Description
+			<textarea rows="20" name=":description">{{ data.description }}</textarea>
+			<button class="pull-right button button--primary" type="submit"><i class="fa fa-plus"></i>Add Exhibit</button>
+		</label>
+	</form>
+{% endblock content %}
+
+{% block scripts %}
+	<script>
+		$('.inputfile').each( function()
+		{
+			var $input = $(this),
+			$label = $input.next( 'label' ),
+			labelVal = $label.html();
+
+			$input.on( 'change', function(e)
+			{
+				var fileName = '';
+				
+				fileName = e.target.value.split( '\\' ).pop();
+
+				if( fileName ){
+					$('.inputfilelabel').html( fileName );
+				}
+				else{
+					$label.html( labelVal );
+				}
+			});
+		});
+	</script>
+{% endblock scripts %}

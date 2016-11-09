@@ -21,6 +21,25 @@
 		{% endif %}
 	{% endif %}
 	<nav class="navbar">
+		<div class="medium-12 columns">
+			<div class="pull-left navbar--logo"></div>
+			<div class="pull-right navbar--right">
+				<ul class="dropdown menu" data-dropdown-menu>
+					<li class="dropdown--account">ACCOUNT<i class="fa fa-caret-down"></i>
+						<ul class="subdrop menu">
+							<li class="subdrop--userpic">
+								<i class="fa fa-user-circle"></i>	
+								<h3>User Information</h3>
+							</li>
+							<li class="subdrop--user"><span>ID</span>{{ session.user.id }}</li>
+							<li class="subdrop--user"><span>EMAIL</span>{{ session.user.email }}</li>
+							<li class="subdrop--user"><span>TYPE</span>{{ session.user.type }}</li>
+							<li><a href="{{ path_for('logoutUser') }}"><i class="fa fa-sign-out" aria-hidden="true"></i>LOGOUT</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</nav>
 	<div class="medium-12 columns">
 		<div class="container">

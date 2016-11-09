@@ -13,6 +13,22 @@
 	</div>
 {% endblock contenttitle %}
 
+{% block reveal %}
+	<div class="reveal" data-animation-in="fade-in" data-animation-out="fade-out" id="status" data-reveal>
+		<div class="callout">
+			<p><i class="fa fa-exclamation-triangle"></i>Warning! You are about to <strong id="actionstring">delete</strong> an exhibit.</p>
+		</div>
+		<div id="confirmationid">	
+		</div>
+		<div class="actionbutton">
+				
+			</div>
+		<button class="close-button" data-close aria-label="Close reveal" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+{% endblock reveal %}
+
 {% block content %}
 	<table>
 		<thead>
@@ -34,17 +50,32 @@
 						{% endif %}
 					</td>
 					<td class="action">
-						<a href="" class="button primary">
+						<button href="{# {{ path_for('updateExhibit', { 'id': exhibit.exhibit_id }) }} #}" class="button primary" disabled>
 							<i class="fa fa-cog"></i>
 							Update
-						</a>
-						<button class="button alert">
+						</button>
+						<a data-open="status" class="button alert" data-id="{{ exhibit.exhibit_id }}" data-name="{{ exhibit.exhibit_name }}">
 							<i class="fa fa-times"></i>
 							Delete
-						</button>
+						</a>
 					</td>
 				</tr>
 			{% endfor %}
 		</tbody>
 	</table>
 {% endblock content %}
+
+{% block scripts %}
+	<script>
+		$('.action .button').on('click',function(){
+			var exhibit_id = $(this).attr('data-id');
+			var exhibit_name = $(this).attr('data-name');
+			$("#confirmationid").html("ID#"+(exhibit_id)+", "+(exhibit_name));
+
+			var route = "{{ path_for('deleteExhibit', { 'id': "exhibit_id" }) }}";
+			var url = route.replace("exhibit_id", exhibit_id);
+			$('.actionbutton').html("<a href='" + url + "' class='button alert'><i class='fa fa-times'></i>Delete</a>");
+
+		});
+	</script>
+{% endblock scripts %}

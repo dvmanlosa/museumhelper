@@ -13,6 +13,93 @@ button > i {
 	margin-bottom: 15px;
 }
 
+.navbar--logo {
+	width: 70px;
+	height: 70px;
+	background: url('/assets/images/logo.png') no-repeat;
+	background-size: 100%;
+	display: inline-block;
+}
+
+.navbar--right > ul{
+	list-style-type: none;
+	line-height: 70px;
+}
+
+.navbar--right > ul > li {
+	color: white;
+	font-size: 14px;
+	font-weight: 600;
+	padding: 0 20px;
+	transition: all 0.5s ease-in;
+}
+
+.navbar--right > ul > li:last-child {
+	background: #24885f;
+}
+
+.navbar--right > ul > li:last-child:hover {
+	background: #17593F;
+}
+
+.dropdown--account > i {
+	position: absolute;
+	left:48%;
+	top: 60%;
+}
+
+.subdrop li a{
+	color: white;
+	text-align: center;
+	font-size: 14px;
+	font-weight: 700;
+	margin-top: 1.2rem;
+	background: #31af7b;
+	border-radius: 0 0 3px 3px;
+	transition: all 0.15s ease-in;
+}
+
+.subdrop > li > a:hover {
+	background: #52CF9D;
+}
+.subdrop--userpic{
+	text-align: center;
+}
+
+.subdrop--userpic h3 {
+	font-size: 12px;
+	padding-top: 10px;
+	font-weight: 600;
+	text-transform: italic;
+}
+
+.subdrop--userpic i {
+	display: block;
+	font-size: 18px;
+	padding-top: 20px;
+}
+
+.subdrop--user {
+	color: white;
+	font-size: 12px;
+	padding: .7rem 1.5rem 0 1.5rem;
+}
+
+.subdrop--user span {
+	font-weight: 800;
+	display: block;
+}
+
+.is-dropdown-submenu {
+	border: transparent;
+	border-radius: 0 0 3px 3px;
+	background: #272727;
+}
+
+.navbar--right .is-submenu-item i {
+	margin-right: 5px;
+}
+
 .container {
 	padding: 20px;
 	background: white;
@@ -135,10 +222,12 @@ table tbody {
 }
 
 .messages {
+	text-align: center;
 	position: fixed;
 	top: 50px;
 	left: 50%;
-	margin-left: -250px;
+	width: 600px;
+	margin-left: -300px;
 	font-weight: 600;
 	font-size: 14px;
 	border: 0;
@@ -150,5 +239,5 @@ table tbody {
 }
 
 .messages i {
-	margin-right: 10px;
+	margin-right: 5px;
 }

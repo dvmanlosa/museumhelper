@@ -22,9 +22,13 @@
 	<div class="login">
 		<div class="row">
 			<div class="login--container">
-				{% if messages %}
+				{% if messages.error %}
 					<div class="messages callout alert">
 						<i class="fa fa-exclamation-triangle"></i>{{ messages.error[0] }}
+					</div>
+				{% elseif messages.success %}
+					<div class="messages callout success">
+						<i class="fa fa-exclamation-triangle"></i>{{ messages.success[0] }}
 					</div>
 				{% endif %}
 				<form action="" method="POST">
