@@ -69,32 +69,27 @@
 		}
 
 		public static function updateExhibit($input = array()){
-			$audioFileName = md5($_POST[':exhibit'].$_SESSION['user']['id']);
 			$fileType = pathinfo($_FILES[':audio']['name'], PATHINFO_EXTENSION);
 			if($fileType != "mp3"){
 				return false;
 			}
 			if(strcmp($_FILES[':audio']['name'], "") != 0){
-				if(strcmp($input[':exhibit'], $input[':prevName']) != 0){
-					if(file_exists("audio/".$input[':audioFileName'].".mp3")){
-						unlink("audio/".$input[':audioFileName'].".mp3");
-					}	
+				if(!is_null(($input[":audio_filename"]))){
+					unlink("audio/".$input[":audio_filename"].".mp3");
 				}
-				Contributor::uploadAudio($_FILES[':audio']);
-				$query = "UPDATE exhibit SET exhibit_name = :exhibit, description = :description, audio_filename = '$audioFileName' 
-				WHERE exhibit_id = :id";
+				$audioFileName = Contributor::uploadAudio($_FILES[':audio']);
+				$query = "UPDATE exhibit SET exhibit_name = :exhibit, description = :description, audio_filename = '$audioFileName' WHERE exhibit_id = :id";
 			}
 			else{
 				$query = "UPDATE exhibit SET exhibit_name = :exhibit, description = :description WHERE exhibit_id = :id";
 			}
-			unset($input[':prevName']);
-			unset($input[':audioFileName']);
+			unset($input[":audio_filename"]);
 			$db = Db::getInstance()->update($query, $input);
 			if($db->error()){
 				return false;
 			}
 			else{
-				return true;
+				return true;	
 			}
 		}
 
@@ -120,11 +115,13 @@
 
 		public static function uploadAudio($audio = null){
 			$audioFileName = md5($_POST[':exhibit'].$_SESSION['user']['id']);
+			if(strcmp(md5($_POST[':exhibit'].$_SESSION['user']['id']), $_POST[":audio_filename"]) == 0){
+				$audioFileName = md5($_SESSION['user']['id'].$_POST[':exhibit']);
+			}
 			$audioFileDestination = "audio/".$audioFileName.".mp3";
 			if($audio['error'] == 0 && move_uploaded_file($audio['tmp_name'], $audioFileDestination)){
 				return $audioFileName;
-			}
-			else{
+			}else{
 				return false;
 			}
 		}
