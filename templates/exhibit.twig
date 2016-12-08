@@ -50,10 +50,10 @@
 						{% endif %}
 					</td>
 					<td class="action">
-						<button href="{# {{ path_for('updateExhibit', { 'id': exhibit.exhibit_id }) }} #}" class="button primary" disabled>
+						<a href="{{ path_for('updateExhibit', { 'id': exhibit.exhibit_id }) }}" class="button primary">
 							<i class="fa fa-cog"></i>
 							Update
-						</button>
+						</a>
 						<a data-open="status" class="button alert" data-id="{{ exhibit.exhibit_id }}" data-name="{{ exhibit.exhibit_name }}">
 							<i class="fa fa-times"></i>
 							Delete

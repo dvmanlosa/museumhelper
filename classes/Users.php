@@ -11,12 +11,14 @@
                 $db = Db::getInstance()->select($query, array(':email' => $input['email']));
                 if($db->count() === 0){
                     //Email does not exists
+                    $_SESSION['error'] = "Email does not exist.";
                     return false;
                 }
                 else{
                     $result = $db->results()[0];
                     if(!password_verify($input['password'], $result->password)){
                         //Incorrect password
+                        $_SESSION['error'] = "Invalid password.";
                         return false;
                     }
                     else{

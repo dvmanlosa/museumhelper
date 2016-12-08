@@ -12,28 +12,28 @@
 {% block content %}
 	<form action="" method="post">
 		<label class="medium-4 columns">First Name
-			<input type="text" name=":firstName">
+			<input type="text" name=":firstName" required>
 		</label>
 		<label class="medium-4 columns">Middle Name
-			<input type="text" name=":middleName">
+			<input type="text" name=":middleName" required>
 		</label>
 		<label class="medium-4 columns">Last Name
-			<input type="text" name=":lastName">
+			<input type="text" name=":lastName" required>
 		</label>
 		<label class="medium-4 columns">Email Address
-			<input type="email" name=":email">
+			<input type="email" name=":email" required>
 		</label>
 		<label class="medium-4 columns">Password
-			<input type="password" name=":password" id="password">
+			<input type="password" name=":password" id="password" required>
 		</label>
 		<label class="medium-4 columns">Confirm Password
-			<input type="password" id="confirmPassword">
+			<input type="password" id="confirmPassword" required>
 		</label>
 		<label class="medium-4 columns">Contact Number
-			<input type="text" name=":contact" value="+63">
+			<input type="text" name=":contact" value="+63" required>
 		</label>
 		<label class="medium-4 columns">Type
-			<select name=":type">
+			<select name=":type" required>
 				<option value="admin">Administrator</option>
 				<option value="contributor">Contributor</option>
 			</select>

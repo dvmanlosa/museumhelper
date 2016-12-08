@@ -70,6 +70,10 @@
 
 		public static function updateExhibit($input = array()){
 			$audioFileName = md5($_POST[':exhibit'].$_SESSION['user']['id']);
+			$fileType = pathinfo($_FILES[':audio']['name'], PATHINFO_EXTENSION);
+			if($fileType != "mp3"){
+				return false;
+			}
 			if(strcmp($_FILES[':audio']['name'], "") != 0){
 				if(strcmp($input[':exhibit'], $input[':prevName']) != 0){
 					if(file_exists("audio/".$input[':audioFileName'].".mp3")){
