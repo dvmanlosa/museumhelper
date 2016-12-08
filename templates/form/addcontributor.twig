@@ -33,19 +33,25 @@
 			<input type="text" name=":contact" value="+63" required>
 		</label>
 		<label class="medium-4 columns">Type
-			<select name=":type" required>
+			<select id="type" name=":type" required>
 				<option value="admin">Administrator</option>
 				<option value="contributor">Contributor</option>
 			</select>
 		</label>
 		<div class="medium-12 columns">
-			<button class="pull-right button button--primary" type="submit"><i class="fa fa-plus"></i>Add Contributor</button>
+			<button id="typeadd" class="pull-right button button--primary" type="submit"><i class="fa fa-plus"></i>Add Administrator</button>
 		</div>
 	</form>
 {% endblock content %}
 
 {% block scripts %}
 	<script>
+		$('#type').change(function () {
+			var optionSelected = $(this).find("option:selected");
+			var textSelected   = optionSelected.text();
+			$('#typeadd').html("<i class='fa fa-plus'></i>Add "+textSelected);
+		});
+
 		$("#confirmPassword").keyup(function(){
 			$confirm = this.value;
 			$password = $("#password").val();
